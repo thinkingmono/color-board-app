@@ -1,23 +1,22 @@
 import { toast } from 'react-toastify';
 
-const SingleColor = ({ color }) => {
+const SingleColor = ({ color, index }) => {
+  const {hex, weight} = color;
 
-  async function copyToClipboard(text) {
+  const copyToClipboard = async (hex) => {
     try {
-      await navigator.clipboard.writeText(text);
-      // console.log('Text copied to clipboard');
-      toast.success('Text copied to clipboard');
+      await navigator.clipboard.writeText('#'+hex);
+      toast.success('Color copied to clipboard');
     } catch (error) {
-      console.error('Failed to copy text: ', error);
-      toast.error('Failed to copy text');
+      toast.error('Failed to copy color');
     }
   }
 
   return (
-    <div className='color' style={{ backgroundColor: 'rgb' + color.rgb }} onClick={() => copyToClipboard(color.rgb)}>
-      <p>{color.rgb}</p>
-      <p>{color.weight}</p>
-    </div>
+    <article className={index >= 10 ? 'color color-light' : 'color'} style={{ backgroundColor: '#'+hex }} onClick={() => copyToClipboard(hex)}>
+      <p className='percent-value'>{weight}%</p>
+      <p className='color-value'>#{hex}</p>
+    </article>
   )
 }
 
